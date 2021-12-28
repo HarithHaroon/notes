@@ -1,6 +1,4 @@
 # notes
 
-
-
-![HomePage](https://imgur.com/a/UnC8xTM)
+![This is the home page] (https://imgur.com/a/UnC8xTM)
 
