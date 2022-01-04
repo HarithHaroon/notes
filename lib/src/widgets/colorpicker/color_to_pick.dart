@@ -1,5 +1,7 @@
-import 'package:app/src/cubit/cubits.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../cubit/cubits.dart';
 
 class ColorToPick extends StatelessWidget {
   final Color color;

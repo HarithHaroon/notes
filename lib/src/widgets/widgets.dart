@@ -2,6 +2,7 @@ export './menu.dart';
 export './note/note.dart';
 export './notes_drawer.dart';
 export './reusable_dailog.dart';
+export './snack_bar.dart';
 export 'appbars/custom_app_bar.dart';
 export 'appbars/notes_screen_appbar.dart';
 export 'colorpicker/color_box.dart';

@@ -1,4 +1,4 @@
-import 'package:app/src/widgets/widgets.dart';
+import 'package:notes/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ColorsToPickFrom extends StatelessWidget {

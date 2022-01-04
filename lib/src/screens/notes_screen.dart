@@ -17,7 +17,7 @@ class NotesScreen extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       key: _key,
       drawer: const SafeArea(
-        child: Drawer(),
+        child: NotesDrawer(),
       ),
       appBar: notesScreenAppBar(context, _key),
       body: BlocConsumer<NotesCubit, NotesStates>(

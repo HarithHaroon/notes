@@ -146,6 +146,15 @@ PreferredSizeWidget notesScreenAppBar(
           ),
         ],
       ),
+      onPressed: () {
+        Navigator.pop(context);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          notesSnackBar(
+            content: 'No Checklists yet!',
+          ),
+        );
+      },
     ),
   ];
 

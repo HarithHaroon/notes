@@ -8,7 +8,13 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: const Center(
-        child: Text('Settings'),
+        child: Text(
+          'Not added yet.',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
