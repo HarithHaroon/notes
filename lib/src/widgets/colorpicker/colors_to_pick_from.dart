@@ -1,6 +1,5 @@
+import 'package:app/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets.dart';
 
 class ColorsToPickFrom extends StatelessWidget {
   final double borderRadius;

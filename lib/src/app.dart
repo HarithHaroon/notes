@@ -10,9 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        return NotesCubit();
-      },
+      create: (context) => NotesCubit()..getNotesFromDatabase(),
       child: MaterialApp(
         theme: ThemeData(
           appBarTheme: const AppBarTheme(

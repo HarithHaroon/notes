@@ -17,9 +17,9 @@ class ListNotes extends StatelessWidget {
         final cubit = NotesCubit.of(context);
 
         return ListView.builder(
-          itemCount: cubit.cards.length,
+          itemCount: cubit.notes.length,
           itemBuilder: (context, index) {
-            final note = cubit.cards[index];
+            final note = cubit.notes[index];
 
             return InkWell(
               onTap: () {
@@ -46,7 +46,7 @@ class ListNotes extends StatelessWidget {
                 );
               },
               child: ListNoteItem(
-                noteModel: cubit.cards[index],
+                noteModel: cubit.notes[index],
               ),
             );
           },

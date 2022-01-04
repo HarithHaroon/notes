@@ -23,3 +23,5 @@ class ChangeShowMenuState extends NotesStates {}
 class DeleteNoteState extends NotesStates {}
 
 class InsertToDatabaseState extends NotesStates {}
+
+class CreateDatabaseState extends NotesStates {}

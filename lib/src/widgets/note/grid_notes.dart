@@ -25,9 +25,9 @@ class GridNotes extends StatelessWidget {
               crossAxisCount: 3,
               mainAxisExtent: cardHeight,
             ),
-            itemCount: cubit.cards.length,
+            itemCount: cubit.notes.length,
             itemBuilder: (context, index) {
-              final note = cubit.cards[index];
+              final note = cubit.notes[index];
 
               return InkWell(
                 onTap: () {
@@ -53,7 +53,7 @@ class GridNotes extends StatelessWidget {
                     ),
                   );
                 },
-                child: GridNoteItem(noteModel: cubit.cards[index]),
+                child: GridNoteItem(noteModel: cubit.notes[index]),
               );
             },
           ),

@@ -40,8 +40,10 @@ class CustomAppBar extends StatelessWidget {
         ),
         onPressed: () {
           final index = cubit.selectedNote;
+          final notes = cubit.notes;
 
-          cubit.deleteNote(index);
+          cubit.deleteNote(notes[index].id!);
+
           Navigator.pop(context);
           Navigator.pop(context);
         },

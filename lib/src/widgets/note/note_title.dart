@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/notes_cubit.dart';
-import '../../cubit/notes_states.dart';
 
 class NoteTitle extends StatelessWidget {
   const NoteTitle({Key? key}) : super(key: key);

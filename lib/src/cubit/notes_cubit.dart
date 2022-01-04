@@ -26,25 +26,9 @@ class NotesCubit extends Cubit<NotesStates> {
   bool checkUncheckNoteTitle = false;
   bool showMenu = false;
 
-  List<NoteModel> _cards = [];
-
-  List<NoteModel> get cards => _cards;
-
   int get selectedNote => _selectedNoteIndex;
-  set setCard(NoteModel noteModel) => _cards.add(noteModel);
 
   String get showGridOrList => CacheHelper.getData(key: 'gridOrList');
-
-  // void insertToDatabase(NoteModel noteModel) {
-  //   NotesDatabase().insertToDatabase(
-  //     title: noteModel.title,
-  //     content: noteModel.content,
-  //     color: noteModel.color,
-  //     checked: noteModel.checked,
-  //     listDate: noteModel.listDate,
-  //     noteDate: noteModel.noteDate,
-  //   );
-  // }
 
   void changeShowMenu(bool change) {
     showMenu = change;
@@ -56,14 +40,6 @@ class NotesCubit extends Cubit<NotesStates> {
     CacheHelper.putString(key: 'gridOrList', value: changeView);
 
     emit(ChangeshowGridState());
-  }
-
-  void deleteNote(int index) {
-    if (_cards.isNotEmpty) {
-      _cards.removeAt(index);
-    }
-
-    emit(DeleteNoteState());
   }
 
   void changeNoteScreenContent(
@@ -91,11 +67,11 @@ class NotesCubit extends Cubit<NotesStates> {
   }
 
   void checkUncheckNote(int index) {
-    if (_cards.isEmpty) {
+    if (_notes.isEmpty) {
       checkUncheckNoteTitle = !checkUncheckNoteTitle;
     } else {
       checkUncheckNoteTitle = !checkUncheckNoteTitle;
-      _cards[index].checked = !_cards[index].checked;
+      _notes[index].checked = !_notes[index].checked;
     }
 
     emit(CheckNoteState());
@@ -106,29 +82,48 @@ class NotesCubit extends Cubit<NotesStates> {
     emit(PickColorState());
   }
 
-  late List<NoteModel> _originalList;
+  void addNoteToDatabse(NoteModel note) {
+    NotesDatabase.instance.addNoteToDatabse(note);
+  }
 
-  void addNote(NoteModel note) {
-    isNoteUpdating = false;
+  List<NoteModel> _notes = [];
 
-    if (_cards.isEmpty) {
-      _originalList = [];
-    } else {
-      _originalList = _cards.sublist(0);
-    }
+  List<NoteModel> get notes => _notes;
 
-    _cards = [note, ..._originalList];
+  Future getNotesFromDatabase() async {
+    _notes = await NotesDatabase.instance.getAllNotesFromDatabase();
 
     emit(GetNotesState());
   }
 
-  void updateNote(NoteModel note, int index) {
+  Future updateNoteInDatabase(NoteModel note) async {
+    await NotesDatabase.instance.updateNoteInDatabase(note);
+    getNotesFromDatabase();
+  }
+
+  Future deleteNoteInDatabase(int id) async {
+    await NotesDatabase.instance.deleteNoteInDatabase(id);
+  }
+
+  void addNote(NoteModel note) {
+    isNoteUpdating = false;
+    addNoteToDatabse(note);
+
+    getNotesFromDatabase();
+    emit(GetNotesState());
+  }
+
+  void updateNote(NoteModel note) {
     isNoteUpdating = true;
 
-    _cards.removeAt(index);
-
-    _cards.insert(0, note);
+    updateNoteInDatabase(note);
 
     emit(UpdateNoteState());
+  }
+
+  Future deleteNote(int id) async {
+    await deleteNoteInDatabase(id);
+
+    await getNotesFromDatabase();
   }
 }

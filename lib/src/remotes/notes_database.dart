@@ -1,95 +1,122 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../cubit/notes_cubit.dart';
 import '../models/note_model.dart';
 
 class NotesDatabase {
-  late Database database;
+  static final NotesDatabase instance = NotesDatabase._init();
 
-  void createDatabase() async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentDirectory.path, 'notes.db');
+  static Database? _database;
 
-    openDatabase(
+  NotesDatabase._init();
+
+  Future<Database> get database async {
+    if (_database != null) {
+      return _database!;
+    }
+    _database = await _initDb('notes.db');
+    return _database!;
+  }
+
+  Future<Database> _initDb(String filePath) async {
+    String dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+    return await openDatabase(
       path,
       version: 1,
-      onCreate: (Database database, int version) async {
-        //  'CREATE TABLE notes (id INTEGER PRIMARY KEY, title TEXT, time TEXT, content TEXT, checked INTEGER)'
-        await database.execute("""
-        CREATE TABLE Notes
-        (
-         id INTEGER PRIMARY KEY, 
-         title TEXT, 
-         content TEXT,
-         color BLOB,
-         noteDate TEXT,
-         listDate TEXT,
-         checked INTEGER
-        )
-         """);
-      },
-      onOpen: (database) {
-        // getDataFromDatabase(database);
-        // emit(GetFromDatabaseState());
-      },
-    ).then((value) {
-      database = value;
-      print('databse created');
-      // emit(CreateDatabaseState());
-    });
+      onCreate: _createDb,
+    );
   }
 
-  void insertToDatabase({
-    required title,
-    required content,
-    required color,
-    required checked,
-    required listDate,
-    required noteDate,
-  }) async {
-    print('inserting..');
-    await database.transaction((txn) async {
-      // INSERT INTO tasks(title, time) VALUES("$title", "$time")
-      txn.rawInsert("""
-            INSERT INTO Notes
-            (title, content, color, checked, listDate, noteDate) 
-            VALUES("$title", "$content", "$color", "$checked", "$listDate ", "$noteDate")
-          """).then((value) {
-        print('inserted $value');
-        // NotesCubit().insertToDatabase();
-        // getDataFromDatabase(database);
-        // emit(GetFromDatabaseState());
-      }).catchError((err) {
-        print(err.toString());
-      });
-    });
+  Future _createDb(Database db, int version) async {
+    await db.execute('''
+          CREATE TABLE $tableNotes
+          (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            ${NoteFields.title} TEXT, 
+            ${NoteFields.content} TEXT,
+            ${NoteFields.color} TEXT,
+            ${NoteFields.noteDate} TEXT,
+            ${NoteFields.listDate} TEXT,
+            ${NoteFields.checked} INTEGER         
+          )
+        ''');
   }
 
-  void getDataFromDatabase(Database database) {
-    database.rawQuery('SELECT * FROM Notes').then((value) {
-      final cubit = NotesCubit();
+  Future close() async {
+    final db = await instance.database;
 
-      final note = NoteModel.fromDb(value);
-      cubit.setCard = note;
-
-      // newTasks = [];
-      // tasks = value;
-
-      cubit.setCard = note;
-      // tasks.forEach((task) {
-      //   if (task['status'] == null) {
-      //     newTasks.add(task);
-      //   } else if (task['status'] == 'Done') {
-      //     doneTasks.add(task);
-      //   } else if (task['status'] == 'Archive') {
-      //     archivedTasks.add(task);
-      //   }
-      // });
-      // emit(GetDatabaseLoadingState());
-    });
+    db.close();
   }
+
+  void addNoteToDatabse(NoteModel note) async {
+    final db = await instance.database;
+    db.insert('Notes', note.toMap());
+  }
+
+  Future<NoteModel?> getNoteFromDatabase(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableNotes,
+      columns: NoteFields.values,
+      where: '${NoteFields.id} =?',
+      whereArgs: [id + 1],
+    );
+    if (maps.isNotEmpty) {
+      return NoteModel.fromDb(maps.first);
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<NoteModel>> getAllNotesFromDatabase() async {
+    final db = await instance.database;
+    final result = await db.query(tableNotes);
+
+    return result.map((note) {
+      return NoteModel.fromDb(note);
+    }).toList();
+  }
+
+  Future<int> updateNoteInDatabase(NoteModel note) async {
+    final db = await instance.database;
+    return db.update(
+      tableNotes,
+      note.toMap(),
+      where: '${NoteFields.id} =?',
+      whereArgs: [note.id],
+    );
+  }
+
+  Future<int> deleteNoteInDatabase(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      tableNotes,
+      where: '${NoteFields.id} =?',
+      whereArgs: [id],
+    );
+  }
+}
+
+const String tableNotes = 'Notes';
+
+class NoteFields {
+  static final List<String> values = [
+    title,
+    content,
+    color,
+    noteDate,
+    listDate,
+    checked,
+  ];
+  static const String id = 'id';
+  static const String title = 'title';
+  static const String content = 'content';
+  static const String color = 'color';
+  static const String noteDate = 'noteDate';
+  static const String listDate = 'listDate';
+  static const String checked = 'checked';
 }

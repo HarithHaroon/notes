@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../constants/constants.dart';
 import '../cubit/cubits.dart';
@@ -24,16 +25,24 @@ class NoteScreen extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
+        final String defaultListDate =
+            DateFormat().add_jm().format(DateTime.now()) +
+                DateFormat().add_jm().format(DateTime.now());
+        final String defaultNoteDate =
+            DateFormat().add_yMMMMd().format(DateTime.now());
+
         if (cubit.isNoteUpdating) {
           cubit.updateNote(
             NoteModel(
+              id: cubit.notes[cubit.selectedNote].id,
               title: cubit.titleController.text,
               checked: cubit.checkUncheckNoteTitle,
               content: cubit.contentController.text,
               color: cubit.choosenColor,
               date: DateTime.now(),
+              listDate: defaultListDate,
+              noteDate: defaultNoteDate,
             ),
-            cubit.noteIndex,
           );
         } else {
           cubit.addNote(
@@ -42,6 +51,8 @@ class NoteScreen extends StatelessWidget {
               content: cubit.contentController.text,
               color: cubit.choosenColor,
               date: DateTime.now(),
+              listDate: defaultListDate,
+              noteDate: defaultNoteDate,
             ),
           );
         }

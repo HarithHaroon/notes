@@ -21,12 +21,17 @@ class NotesScreen extends StatelessWidget {
       body: BlocConsumer<NotesCubit, NotesStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return NotesCubit.of(context).showGridOrList == 'grid'
-              ? const GridNotes()
-              : const Padding(
-                  padding: EdgeInsets.only(top: 3.0),
-                  child: ListNotes(),
-                );
+          final notes = NotesCubit.of(context).notes;
+
+          return notes.isNotEmpty
+              ? NotesCubit.of(context).showGridOrList == 'grid'
+                  ? const GridNotes()
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 3.0),
+                      child: ListNotes(),
+                    )
+              // TODO: ADD image to indicate no notes
+              : const Center(child: CircularProgressIndicator());
         },
       ),
     );
