@@ -21,6 +21,9 @@ class NoteBody extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             color: cubit.choosenColor.withOpacity(colorOpacity),
             child: TextField(
+              style: const TextStyle(
+                fontSize: 20,
+              ),
               controller: cubit.contentController,
               keyboardType: TextInputType.text,
               maxLines: 99,

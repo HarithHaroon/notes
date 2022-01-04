@@ -11,8 +11,6 @@ class NoteModel {
   late String listDate;
   late String noteDate;
 
-  // String defaultNoteDate = DateFormat().add_jm().format(DateTime.now()) +
-  //     DateFormat().add_jm().format(DateTime.now());
   NoteModel({
     this.title = '',
     this.checked = false,
@@ -48,18 +46,6 @@ class NoteModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'title': title,
-      'content': content,
-      'color': colorToHex(color),
-      'checked': checked ? 1 : 0,
-      'listDate': listDate,
-      'noteDate': noteDate,
-    };
-  }
-
-  Map<String, dynamic> toPrintMap() {
-    return {
-      'id': id,
       'title': title,
       'content': content,
       'color': colorToHex(color),

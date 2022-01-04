@@ -11,6 +11,8 @@ class NotesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double fontSize = 22.0;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       key: _key,
@@ -30,8 +32,29 @@ class NotesScreen extends StatelessWidget {
                       padding: EdgeInsets.only(top: 3.0),
                       child: ListNotes(),
                     )
-              // TODO: ADD image to indicate no notes
-              : const Center(child: CircularProgressIndicator());
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'You don\'t have any saved notes.',
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Tap the + icon to add some.',
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
         },
       ),
     );

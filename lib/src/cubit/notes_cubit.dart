@@ -82,7 +82,7 @@ class NotesCubit extends Cubit<NotesStates> {
     emit(PickColorState());
   }
 
-  void addNoteToDatabse(NoteModel note) {
+  void _addNoteToDatabse(NoteModel note) {
     NotesDatabase.instance.addNoteToDatabse(note);
   }
 
@@ -96,18 +96,18 @@ class NotesCubit extends Cubit<NotesStates> {
     emit(GetNotesState());
   }
 
-  Future updateNoteInDatabase(NoteModel note) async {
+  Future _updateNoteInDatabase(NoteModel note) async {
     await NotesDatabase.instance.updateNoteInDatabase(note);
     getNotesFromDatabase();
   }
 
-  Future deleteNoteInDatabase(int id) async {
+  Future _deleteNoteInDatabase(int id) async {
     await NotesDatabase.instance.deleteNoteInDatabase(id);
   }
 
   void addNote(NoteModel note) {
     isNoteUpdating = false;
-    addNoteToDatabse(note);
+    _addNoteToDatabse(note);
 
     getNotesFromDatabase();
     emit(GetNotesState());
@@ -116,13 +116,13 @@ class NotesCubit extends Cubit<NotesStates> {
   void updateNote(NoteModel note) {
     isNoteUpdating = true;
 
-    updateNoteInDatabase(note);
+    _updateNoteInDatabase(note);
 
     emit(UpdateNoteState());
   }
 
   Future deleteNote(int id) async {
-    await deleteNoteInDatabase(id);
+    await _deleteNoteInDatabase(id);
 
     await getNotesFromDatabase();
   }
