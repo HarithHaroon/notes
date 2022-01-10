@@ -45,36 +45,49 @@ class ColorBox extends StatelessWidget {
 
     final listLenght = colors.length;
 
-    return Container(
-      margin: const EdgeInsets.only(left: 10.0),
-      child: InkWell(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return ColorsToPickFrom(
-                containerColor: Colors.grey[200],
-                listLenght: listLenght,
-                colors: colors,
-                colorDimension: colorDimension,
-                borderRadius: 5,
-              );
-            },
-          );
-        },
-        child: BlocConsumer<NotesCubit, NotesStates>(
-          listener: (BuildContext context, state) {},
-          builder: (BuildContext context, state) {
-            return Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.black12),
-                color: NotesCubit.of(context).choosenColor,
-              ),
-              width: 35,
-              height: 35,
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ColorsToPickFrom(
+              containerColor: Colors.grey[200],
+              listLenght: listLenght,
+              colors: colors,
+              colorDimension: colorDimension,
+              borderRadius: 5,
             );
           },
-        ),
+        );
+      },
+      child: BlocConsumer<NotesCubit, NotesStates>(
+        listener: (BuildContext context, state) {},
+        builder: (BuildContext context, state) {
+          final cubit = NotesCubit.of(context);
+
+          return cubit.editNote
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Container(
+                    child: const Icon(
+                      Icons.color_lens_outlined,
+                      color: Colors.white,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.black12),
+                      color: cubit.choosenColor,
+                    ),
+                    width: 35,
+                    height: 35,
+                  ),
+                )
+              : IconButton(
+                  onPressed: () {
+                    cubit.changeEditingNote(editingNote: true);
+                  },
+                  icon: const Icon(Icons.edit),
+                );
+        },
       ),
     );
   }

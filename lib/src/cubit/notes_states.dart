@@ -6,10 +6,6 @@ class NotesInitialState extends NotesStates {}
 
 class PickColorState extends NotesStates {}
 
-class ChangeTitleState extends NotesStates {}
-
-class ChangeContentState extends NotesStates {}
-
 class GetNotesState extends NotesStates {}
 
 class UpdateNoteState extends NotesStates {}
@@ -20,8 +16,6 @@ class ChangeshowGridState extends NotesStates {}
 
 class ChangeShowMenuState extends NotesStates {}
 
-class DeleteNoteState extends NotesStates {}
+class EditingNoteState extends NotesStates {}
 
-class InsertToDatabaseState extends NotesStates {}
-
-class CreateDatabaseState extends NotesStates {}
+class ChangeNewNoteBoolState extends NotesStates {}

@@ -98,13 +98,13 @@ class CustomAppBar extends StatelessWidget {
       builder: (context, state) {
         return Container(
           color: cubit.choosenColor.withOpacity(appBarOpacity),
-          height: appBarHeight + 3,
+          height: appBarHeight,
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Row(
               children: [
-                const NoteTitle(),
+                cubit.editNote ? const EditNoteTitle() : const ViewNoteTitle(),
                 const ColorBox(),
                 Expanded(
                   child: cubit.showMenu

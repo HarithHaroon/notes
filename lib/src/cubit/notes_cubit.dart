@@ -25,10 +25,21 @@ class NotesCubit extends Cubit<NotesStates> {
   bool showDialog = true;
   bool checkUncheckNoteTitle = false;
   bool showMenu = false;
+  bool editNote = false;
 
   int get selectedNote => _selectedNoteIndex;
 
   String get showGridOrList => CacheHelper.getData(key: 'gridOrList');
+
+  void changeNewNote({required bool newNote}) {
+    isNewNote = newNote;
+    emit(ChangeNewNoteBoolState());
+  }
+
+  void changeEditingNote({required bool editingNote}) {
+    editNote = editingNote;
+    emit(EditingNoteState());
+  }
 
   void changeShowMenu(bool change) {
     showMenu = change;
@@ -64,6 +75,7 @@ class NotesCubit extends Cubit<NotesStates> {
 
   void changeCheckUncheckNote(bool checked) {
     checkUncheckNoteTitle = checked;
+    emit(CheckNoteState());
   }
 
   void checkUncheckNote(int index) {

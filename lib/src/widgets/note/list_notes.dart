@@ -37,7 +37,7 @@ class ListNotes extends StatelessWidget {
                   true,
                   DateTime.now(),
                 );
-
+                cubit.changeNewNote(newNote: false);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

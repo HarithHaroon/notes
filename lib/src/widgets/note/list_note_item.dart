@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../models/note_model.dart';
 
@@ -17,6 +16,9 @@ class ListNoteItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 3, right: 3),
       child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
         elevation: 5,
         child: Row(
           children: [
@@ -49,7 +51,7 @@ class ListNoteItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: Text(
-                          DateFormat().add_yMMMMd().format(noteModel.date),
+                          noteModel.listDate!,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

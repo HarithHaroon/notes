@@ -38,7 +38,7 @@ class NotesDatabase {
             ${NoteFields.title} TEXT, 
             ${NoteFields.content} TEXT,
             ${NoteFields.color} TEXT,
-            ${NoteFields.noteDate} TEXT,
+            ${NoteFields.noteTime} TEXT,
             ${NoteFields.listDate} TEXT,
             ${NoteFields.checked} INTEGER         
           )
@@ -108,7 +108,7 @@ class NoteFields {
     title,
     content,
     color,
-    noteDate,
+    noteTime,
     listDate,
     checked,
   ];
@@ -116,7 +116,7 @@ class NoteFields {
   static const String title = 'title';
   static const String content = 'content';
   static const String color = 'color';
-  static const String noteDate = 'noteDate';
+  static const String noteTime = 'noteTime';
   static const String listDate = 'listDate';
   static const String checked = 'checked';
 }

@@ -46,6 +46,8 @@ class GridNotes extends StatelessWidget {
                     DateTime.now(),
                   );
 
+                  cubit.changeNewNote(newNote: false);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(

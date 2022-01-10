@@ -9,7 +9,6 @@ PreferredSizeWidget notesScreenAppBar(
     BuildContext context, GlobalKey<ScaffoldState> key) {
   final double appBarHeight = AppBar().preferredSize.height;
   final double screenWidth = MediaQuery.of(context).size.width;
-  final cubit = NotesCubit.of(context);
 
   List<String> choicesNames = const [view, settings];
 
@@ -80,84 +79,6 @@ PreferredSizeWidget notesScreenAppBar(
     ],
   };
 
-  Widget dialogTitle = Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'Add Note',
-        style: TextStyle(color: Colors.teal),
-      ),
-      const SizedBox(height: 5),
-      Container(
-        width: double.infinity,
-        color: Colors.teal,
-        height: 2,
-      ),
-    ],
-  );
-
-  List<Widget> dialogOptions = [
-    SimpleDialogOption(
-      child: Row(
-        children: const [
-          Icon(
-            Icons.text_snippet,
-            size: 28,
-          ),
-          SizedBox(width: 10),
-          Text(
-            'Text',
-            style: TextStyle(fontSize: 28),
-          ),
-        ],
-      ),
-      onPressed: () {
-        cubit.changeShowMenu(false);
-
-        cubit.changeNoteScreenContent(
-          '',
-          '',
-          defaultNoteColor,
-          0,
-          false,
-          DateTime.now(),
-        );
-        Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NoteScreen(
-              title: cubit.titleController.text = '',
-              content: cubit.contentController.text = '',
-              color: cubit.choosenColor = defaultNoteColor,
-            ),
-          ),
-        );
-      },
-    ),
-    SimpleDialogOption(
-      child: Row(
-        children: const [
-          Icon(Icons.fact_check_rounded),
-          SizedBox(width: 10),
-          Text(
-            'Checklist',
-            style: TextStyle(fontSize: 28),
-          ),
-        ],
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          notesSnackBar(
-            content: 'No Checklists yet!',
-          ),
-        );
-      },
-    ),
-  ];
-
   return AppBar(
     elevation: 0.0,
     leadingWidth: screenWidth * 0.8,
@@ -184,20 +105,6 @@ PreferredSizeWidget notesScreenAppBar(
       ),
     ),
     actions: [
-      IconButton(
-        onPressed: () async {
-          await showDialog(
-            context: context,
-            builder: (context) {
-              return RDialog(
-                title: dialogTitle,
-                options: dialogOptions,
-              );
-            },
-          );
-        },
-        icon: const Icon(Icons.add_circle),
-      ),
       Menu(
         choicesIcons: choicesIcons,
         choicesNames: choicesNames,

@@ -13,6 +13,10 @@ class App extends StatelessWidget {
       create: (context) => NotesCubit()..getNotesFromDatabase(),
       child: MaterialApp(
         theme: ThemeData(
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            elevation: 20,
+            backgroundColor: Colors.teal,
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.teal,
           ),

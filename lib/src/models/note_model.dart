@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NoteModel {
   int? id;
@@ -7,9 +8,9 @@ class NoteModel {
   late Color color;
   late String colorString;
   late bool checked;
-  DateTime date = DateTime.now();
-  late String listDate;
-  late String noteDate;
+
+  late String? listDate;
+  String noteTime = DateFormat().add_jm().format(DateTime.now());
 
   NoteModel({
     this.title = '',
@@ -17,9 +18,8 @@ class NoteModel {
     this.id,
     required this.content,
     required this.color,
-    required this.date,
-    required this.listDate,
-    required this.noteDate,
+    this.listDate,
+    required this.noteTime,
   });
 
   String colorToHex(Color color) {
@@ -36,11 +36,12 @@ class NoteModel {
     note.forEach((key, value) {
       id = note['id'];
       title = note['title'];
+
       content = note['content'];
       color = hexToColor(note['color']);
       checked = note['checked'] == 1;
       listDate = note['listDate'];
-      noteDate = note['noteDate'];
+      noteTime = note['noteTime'];
     });
   }
 
@@ -51,7 +52,7 @@ class NoteModel {
       'color': colorToHex(color),
       'checked': checked ? 1 : 0,
       'listDate': listDate,
-      'noteDate': noteDate,
+      'noteTime': noteTime,
     };
   }
 }

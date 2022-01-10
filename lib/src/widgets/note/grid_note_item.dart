@@ -24,6 +24,9 @@ class GridNoteItem extends StatelessWidget {
       width: cardWidth,
       height: cardHeight,
       child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
         elevation: 5,
         child: Column(
           children: [

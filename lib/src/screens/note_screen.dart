@@ -25,10 +25,9 @@ class NoteScreen extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
+        final String defaultNoteTime =
+            DateFormat().add_jm().format(DateTime.now());
         final String defaultListDate =
-            DateFormat().add_jm().format(DateTime.now()) +
-                DateFormat().add_jm().format(DateTime.now());
-        final String defaultNoteDate =
             DateFormat().add_yMMMMd().format(DateTime.now());
 
         if (cubit.isNoteUpdating) {
@@ -39,9 +38,8 @@ class NoteScreen extends StatelessWidget {
               checked: cubit.checkUncheckNoteTitle,
               content: cubit.contentController.text,
               color: cubit.choosenColor,
-              date: DateTime.now(),
               listDate: defaultListDate,
-              noteDate: defaultNoteDate,
+              noteTime: defaultNoteTime,
             ),
           );
         } else {
@@ -50,12 +48,13 @@ class NoteScreen extends StatelessWidget {
               title: cubit.titleController.text,
               content: cubit.contentController.text,
               color: cubit.choosenColor,
-              date: DateTime.now(),
               listDate: defaultListDate,
-              noteDate: defaultNoteDate,
+              noteTime: defaultNoteTime,
             ),
           );
         }
+
+        cubit.changeEditingNote(editingNote: false);
 
         return true;
       },
@@ -69,13 +68,23 @@ class NoteScreen extends StatelessWidget {
                 listener: (context, state) {},
                 builder: (context, state) {
                   return Container(
-                    padding: const EdgeInsets.only(top: 5, right: 5.0),
+                    padding: const EdgeInsets.only(right: 5, top: 5),
                     color: cubit.choosenColor.withOpacity(colorOpacity),
-                    child: const NoteDate(),
+                    child: const SizedBox(
+                      height: 50,
+                      child: NoteDate(),
+                    ),
                   );
                 },
               ),
-              const NoteBody(),
+              BlocConsumer<NotesCubit, NotesStates>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  return cubit.editNote
+                      ? const EditNoteBody()
+                      : const ViewNoteBody();
+                },
+              ),
             ],
           ),
         ),
