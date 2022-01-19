@@ -38,7 +38,7 @@ class Menu extends StatelessWidget {
     }).toList();
 
     return PopupMenuButton<String>(
-      offset: const Offset(0, 55),
+      offset: const Offset(0, 40),
       onSelected: (String choiceName) {
         if (menuAction(choiceName) == showdialog) {
           showDialog(

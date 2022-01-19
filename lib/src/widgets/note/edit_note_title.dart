@@ -19,6 +19,9 @@ class EditNoteTitle extends StatelessWidget {
           style: const TextStyle(
             fontSize: 25,
           ),
+          onChanged: (String text) {
+            NotesCubit.of(context).changeIsEmptyNote(isEmpty: false);
+          },
           controller: NotesCubit.of(context).titleController,
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.only(left: 5),

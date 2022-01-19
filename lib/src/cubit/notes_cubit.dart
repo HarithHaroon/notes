@@ -26,10 +26,15 @@ class NotesCubit extends Cubit<NotesStates> {
   bool checkUncheckNoteTitle = false;
   bool showMenu = false;
   bool editNote = false;
+  bool isEmptyNote = true;
 
   int get selectedNote => _selectedNoteIndex;
 
   String get showGridOrList => CacheHelper.getData(key: 'gridOrList');
+
+  void changeIsEmptyNote({required bool isEmpty}) {
+    isEmptyNote = isEmpty;
+  }
 
   void changeNewNote({required bool newNote}) {
     isNewNote = newNote;
@@ -47,20 +52,20 @@ class NotesCubit extends Cubit<NotesStates> {
     emit(ChangeShowMenuState());
   }
 
-  changeShowGrid(String changeView) {
+  void changeShowGrid(String changeView) {
     CacheHelper.putString(key: 'gridOrList', value: changeView);
 
     emit(ChangeshowGridState());
   }
 
-  void changeNoteScreenContent(
-    String title,
-    String content,
-    Color color,
-    int index,
-    bool update,
-    DateTime newDate,
-  ) {
+  void changeNoteScreenContent({
+    required String title,
+    required String content,
+    required Color color,
+    required int index,
+    required bool update,
+    required DateTime newDate,
+  }) {
     noteIndex = index;
     titleController.text = title;
     contentController.text = content;

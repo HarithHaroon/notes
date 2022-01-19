@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class NoteModel {
   int? id;
@@ -8,9 +7,8 @@ class NoteModel {
   late Color color;
   late String colorString;
   late bool checked;
-
+  late String noteTime;
   late String? listDate;
-  String noteTime = DateFormat().add_jm().format(DateTime.now());
 
   NoteModel({
     this.title = '',
@@ -18,7 +16,7 @@ class NoteModel {
     this.id,
     required this.content,
     required this.color,
-    this.listDate,
+    required this.listDate,
     required this.noteTime,
   });
 

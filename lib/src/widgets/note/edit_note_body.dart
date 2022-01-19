@@ -24,6 +24,9 @@ class EditNoteBody extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
               ),
+              onChanged: (String text) {
+                NotesCubit.of(context).changeIsEmptyNote(isEmpty: false);
+              },
               controller: cubit.contentController,
               keyboardType: TextInputType.text,
               maxLines: 99,

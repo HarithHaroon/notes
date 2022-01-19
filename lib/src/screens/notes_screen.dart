@@ -18,22 +18,6 @@ class NotesScreen extends StatelessWidget {
 
     final cubit = NotesCubit.of(context);
 
-    Widget dialogTitle = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Add Note',
-          style: TextStyle(color: Colors.teal),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          width: double.infinity,
-          color: Colors.teal,
-          height: 2,
-        ),
-      ],
-    );
-
     List<Widget> dialogOptions = [
       SimpleDialogOption(
         child: Row(
@@ -51,14 +35,15 @@ class NotesScreen extends StatelessWidget {
         ),
         onPressed: () {
           cubit.changeShowMenu(false);
+          cubit.changeNewNote(newNote: true);
 
           cubit.changeNoteScreenContent(
-            '',
-            '',
-            defaultNoteColor,
-            0,
-            false,
-            DateTime.now(),
+            title: '',
+            content: '',
+            color: defaultNoteColor,
+            index: 0,
+            update: false,
+            newDate: DateTime.now(),
           );
           Navigator.pop(context);
           Navigator.push(
@@ -72,6 +57,7 @@ class NotesScreen extends StatelessWidget {
             ),
           );
           cubit.changeEditingNote(editingNote: true);
+          cubit.changeIsEmptyNote(isEmpty: true);
         },
       ),
       SimpleDialogOption(
@@ -155,4 +141,20 @@ class NotesScreen extends StatelessWidget {
       ),
     );
   }
+
+  final Widget dialogTitle = Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Add Note',
+        style: TextStyle(color: Colors.teal),
+      ),
+      const SizedBox(height: 5),
+      Container(
+        width: double.infinity,
+        color: Colors.teal,
+        height: 2,
+      ),
+    ],
+  );
 }

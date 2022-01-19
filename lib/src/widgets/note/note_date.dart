@@ -12,16 +12,14 @@ class NoteDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = NotesCubit.of(context);
-
-    String date;
-    String time;
-
+    String noteTime;
+    String listDate;
     if (cubit.isNewNote) {
-      date = DateFormat().add_yMMMMd().format(DateTime.now());
-      time = DateFormat().add_jm().format(DateTime.now());
+      noteTime = DateFormat().add_jm().format(DateTime.now());
+      listDate = DateFormat().add_yMMMMd().format(DateTime.now());
     } else {
-      date = cubit.notes[cubit.selectedNote].listDate!;
-      time = cubit.notes[cubit.selectedNote].noteTime;
+      noteTime = cubit.notes[cubit.selectedNote].noteTime;
+      listDate = cubit.notes[cubit.selectedNote].listDate!;
     }
 
     return BlocConsumer<NotesCubit, NotesStates>(
@@ -31,7 +29,7 @@ class NoteDate extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              date,
+              listDate,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -39,7 +37,7 @@ class NoteDate extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              time,
+              noteTime,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

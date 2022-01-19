@@ -30,12 +30,12 @@ class ListNotes extends StatelessWidget {
                 cubit.changeCheckUncheckNote(note.checked);
 
                 cubit.changeNoteScreenContent(
-                  note.title,
-                  note.content,
-                  note.color,
-                  index,
-                  true,
-                  DateTime.now(),
+                  title: note.title,
+                  content: note.content,
+                  color: note.color,
+                  index: index,
+                  update: true,
+                  newDate: DateTime.now(),
                 );
                 cubit.changeNewNote(newNote: false);
                 Navigator.push(

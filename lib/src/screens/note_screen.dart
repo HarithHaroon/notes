@@ -23,37 +23,59 @@ class NoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = NotesCubit.of(context);
 
+    bool userIsEdiiting() {
+      return cubit.editNote;
+    }
+
+    bool updatingNote() {
+      return cubit.isNoteUpdating;
+    }
+
+    String getDefaultDate() {
+      return DateFormat().add_yMMMMd().format(DateTime.now());
+    }
+
+    String getDefaultTime() {
+      return DateFormat().add_jm().format(DateTime.now());
+    }
+
+    void updateNote() {
+      cubit.updateNote(
+        NoteModel(
+          id: cubit.notes[cubit.selectedNote].id,
+          title: cubit.titleController.text,
+          checked: cubit.checkUncheckNoteTitle,
+          content: cubit.contentController.text,
+          color: cubit.choosenColor,
+          listDate: getDefaultDate(),
+          noteTime: getDefaultTime(),
+        ),
+      );
+    }
+
+    void addNewNote() {
+      cubit.addNote(
+        NoteModel(
+          title: cubit.titleController.text,
+          content: cubit.contentController.text,
+          color: cubit.choosenColor,
+          listDate: getDefaultDate(),
+          noteTime: getDefaultTime(),
+        ),
+      );
+    }
+
     return WillPopScope(
       onWillPop: () async {
-        final String defaultNoteTime =
-            DateFormat().add_jm().format(DateTime.now());
-        final String defaultListDate =
-            DateFormat().add_yMMMMd().format(DateTime.now());
-
-        if (cubit.isNoteUpdating) {
-          cubit.updateNote(
-            NoteModel(
-              id: cubit.notes[cubit.selectedNote].id,
-              title: cubit.titleController.text,
-              checked: cubit.checkUncheckNoteTitle,
-              content: cubit.contentController.text,
-              color: cubit.choosenColor,
-              listDate: defaultListDate,
-              noteTime: defaultNoteTime,
-            ),
-          );
-        } else {
-          cubit.addNote(
-            NoteModel(
-              title: cubit.titleController.text,
-              content: cubit.contentController.text,
-              color: cubit.choosenColor,
-              listDate: defaultListDate,
-              noteTime: defaultNoteTime,
-            ),
-          );
+        if (userIsEdiiting()) {
+          if (updatingNote()) {
+            updateNote();
+          } else {
+            if (!cubit.isEmptyNote) {
+              addNewNote();
+            }
+          }
         }
-
         cubit.changeEditingNote(editingNote: false);
 
         return true;
